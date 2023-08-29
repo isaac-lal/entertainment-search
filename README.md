@@ -1,4 +1,4 @@
-# simple-movie-search
+# simple-entertainment-search
 
 ## Scaffolding Your First Vite Project
 
