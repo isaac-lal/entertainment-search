@@ -1,35 +1,71 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useState } from 'react';
+import MovieCard from './MovieCard';
+import './index.css';
+import SearchIcon from './search.svg';
 
+const API_URL = `https://www.omdbapi.com?apikey=${
+  import.meta.env.VITE_OMDB_API_KEY
+}`;
+
+{
+  /*}
+const movie1 = {
+  Title: 'Inception',
+  Year: '2014',
+  imdbID: 'tt7321322',
+  Type: 'movie',
+  Poster:
+    'https://m.media-amazon.com/images/M/MV5BYWJmYWJmNWMtZTBmNy00M2MzLTg5ZWEtOGU5ZWRiYTE0ZjVmXkEyXkFqcGdeQXVyNzkyOTM2MjE@._V1_SX300.jpg',
+};
+*/
+}
 function App() {
-  const [count, setCount] = useState(0)
+  const [movies, setMovies] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const searchMovies = async title => {
+    const response = await fetch(`${API_URL}&s=${title}`);
+    const data = await response.json();
+
+    setMovies(data.Search);
+  };
+  useEffect(() => {
+    searchMovies('Inception');
+  }, []);
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <div className='app'>
+        <h1>DigiWorld</h1>
+
+        <div className='search'>
+          <input
+            type='text'
+            placeholder='Search for some movies!'
+            value={searchTerm}
+            onChange={e => setSearchTerm(e.target.value)}
+          />
+          <img
+            src={SearchIcon}
+            alt='search'
+            onClick={() => searchMovies(searchTerm)}
+          />
+        </div>
+
+        {movies?.length > 0 ? (
+          <div className='container'>
+            {movies.map(movie => (
+              <MovieCard movie={movie} />
+            ))}
+          </div>
+        ) : (
+          <div className='empty'>
+            <h2>No movies found</h2>
+          </div>
+        )}
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
