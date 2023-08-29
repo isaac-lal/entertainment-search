@@ -36,7 +36,7 @@ function App() {
   return (
     <>
       <div className='app'>
-        <h1>DigiWorld</h1>
+        <h1>Entertainment Search</h1>
 
         <div className='search'>
           <input
