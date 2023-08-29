@@ -30,7 +30,7 @@ function App() {
     setMovies(data.Search);
   };
   useEffect(() => {
-    searchMovies('Inception');
+    searchMovies('');
   }, []);
 
   return (
